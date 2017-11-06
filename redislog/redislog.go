@@ -1,6 +1,8 @@
 package redislog
 
 import (
+	"log"
+
 	"github.com/docker/docker/daemon/logger"
 	"h3d.com/weipeng/dockerlogredis/ringbuffer"
 )
@@ -23,6 +25,7 @@ func (rl *Redislog) Log(msg *logger.Message) (err error) {
 	rl.bus.Pub(msg)
 	_, err = rl.rb.Write(msg)
 	// TODO send to redis
+	log.Println(`=>debug`, msg.Timestamp, msg.Source, msg.Line)
 	return err
 }
 func New(info logger.Info) (rl logger.Logger, err error) {
