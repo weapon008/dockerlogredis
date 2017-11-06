@@ -1,0 +1,17 @@
+TestcaseServer
+*.exe
+*_update
+.svn
+X51WebServer
+static
+angular2
+.build
+.stage
+log
+rcc-web
+rcc.db
+rcc.db.*
+rcc
+logs
+.idea
+rcc-web
