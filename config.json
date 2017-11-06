@@ -1,7 +1,7 @@
 {
 	"description": "redislog as plugin",
 	"documentation": "-",
-	"entrypoint": ["/usr/bin/docker-log-driver"],
+	"entrypoint": ["/usr/bin/dockerlogredis"],
 	"interface": {
 		"types": ["docker.logdriver/1.0"],
 		"socket": "redis.sock"
