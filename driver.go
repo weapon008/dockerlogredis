@@ -1,14 +1,14 @@
 package main
 
 import (
-	//	"context"
+	"context"
 	"encoding/binary"
 	"fmt"
 	"io"
 	"os"
 	"path/filepath"
 	"sync"
-	//	"syscall"
+	"syscall"
 	"time"
 
 	//	"github.com/Sirupsen/logrus"
@@ -17,7 +17,7 @@ import (
 	//	"github.com/docker/docker/daemon/logger/jsonfilelog"
 	protoio "github.com/gogo/protobuf/io"
 	"github.com/pkg/errors"
-	//	"github.com/tonistiigi/fifo"
+	"github.com/tonistiigi/fifo"
 	"h3d.com/weipeng/dockerlogredis/redislog"
 )
 
@@ -61,13 +61,13 @@ func (d *driver) StartLogging(file string, logCtx logger.Info) error {
 	}
 
 	//	logrus.WithField("id", logCtx.ContainerID).WithField("file", file).WithField("logpath", logCtx.LogPath).Debugf("Start logging")
-	//	f, err := fifo.OpenFifo(context.Background(), file, syscall.O_RDONLY, 0700)
+	f, err := fifo.OpenFifo(context.Background(), file, syscall.O_RDONLY, 0700)
 	if err != nil {
 		return errors.Wrapf(err, "error opening logger fifo: %q", file)
 	}
 
 	d.mu.Lock()
-	lf := &logPair{l, nil, logCtx}
+	lf := &logPair{l, f, logCtx}
 	d.logs[file] = lf
 	d.idx[logCtx.ContainerID] = lf
 	d.mu.Unlock()
