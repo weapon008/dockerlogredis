@@ -30,7 +30,7 @@ func (rb *RingBuffer) Write(p *logger.Message) (n int, err error) {
 func (rb *RingBuffer) Tail(n int, Since time.Time) []*logger.Message {
 	rb.rl.RLock()
 	defer rb.rl.RUnlock()
-	if rb.size < n || n == 0 {
+	if rb.size < n || n <= 0 {
 		n = rb.size
 	}
 	log.Println(`???????????`, n, rb.size)
