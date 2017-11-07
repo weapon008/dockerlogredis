@@ -130,7 +130,6 @@ func (d *driver) ReadLogs(info logger.Info, config logger.ReadConfig) (io.ReadCl
 	if !ok {
 		return nil, fmt.Errorf("logger does not support reading")
 	}
-	log.Println(`!!!!!!!!!!!777`, config)
 	go func() {
 		watcher := lr.ReadLogs(config)
 		enc := protoio.NewUint32DelimitedWriter(w, binary.BigEndian)
@@ -141,7 +140,6 @@ func (d *driver) ReadLogs(info logger.Info, config logger.ReadConfig) (io.ReadCl
 			select {
 			case msg, ok := <-watcher.Msg:
 				if !ok {
-					log.Println(`!!!!!!!!!!!666`)
 					w.Close()
 					return
 				}
@@ -150,19 +148,16 @@ func (d *driver) ReadLogs(info logger.Info, config logger.ReadConfig) (io.ReadCl
 				buf.Partial = msg.Partial
 				buf.TimeNano = msg.Timestamp.UnixNano()
 				buf.Source = msg.Source
-				log.Println(`!!!!!!!!!!!`, string(msg.Line), string(buf.Line))
 				if err := enc.WriteMsg(&buf); err != nil {
 					w.CloseWithError(err)
 					return
 				}
 			case err := <-watcher.Err:
-				log.Println(`!!!!!!!!!!!555`, err.Error())
 				if err == io.EOF {
 					for {
 						select {
 						case msg, ok := <-watcher.Msg:
 							if !ok {
-								log.Println(`!!!!!!!!!!!666`)
 								w.Close()
 								return
 							}
@@ -171,7 +166,6 @@ func (d *driver) ReadLogs(info logger.Info, config logger.ReadConfig) (io.ReadCl
 							buf.Partial = msg.Partial
 							buf.TimeNano = msg.Timestamp.UnixNano()
 							buf.Source = msg.Source
-							log.Println(`!!!!!!!!!!!`, string(msg.Line), string(buf.Line))
 							if err := enc.WriteMsg(&buf); err != nil {
 								w.CloseWithError(err)
 								return
@@ -184,7 +178,6 @@ func (d *driver) ReadLogs(info logger.Info, config logger.ReadConfig) (io.ReadCl
 				w.CloseWithError(err)
 				return
 			}
-			log.Println(`!!!!!!!!!!!444`)
 		}
 	}()
 
