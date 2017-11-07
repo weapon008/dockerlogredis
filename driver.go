@@ -143,6 +143,7 @@ func (d *driver) ReadLogs(info logger.Info, config logger.ReadConfig) (io.ReadCl
 			select {
 			case msg, ok := <-watcher.Msg:
 				if !ok {
+					log.Println(`!!!!!!!!!!!666`, err.Error())
 					w.Close()
 					return
 				}
