@@ -157,10 +157,11 @@ func (d *driver) ReadLogs(info logger.Info, config logger.ReadConfig) (io.ReadCl
 					return
 				}
 			case err := <-watcher.Err:
+				log.Println(`!!!!!!!!!!!555`, err.Error())
 				w.CloseWithError(err)
 				return
 			}
-
+			log.Println(`!!!!!!!!!!!444`)
 			buf.Reset()
 		}
 	}()
