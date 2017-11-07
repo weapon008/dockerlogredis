@@ -167,7 +167,7 @@ func (d *driver) ReadLogs(info logger.Info, config logger.ReadConfig) (io.ReadCl
 								w.Close()
 								return
 							}
-							buf = logdriver.LogEntry{}
+							buf := logdriver.LogEntry{}
 							buf.Line = msg.Line
 							buf.Partial = msg.Partial
 							buf.TimeNano = msg.Timestamp.UnixNano()
