@@ -178,8 +178,8 @@ func (d *driver) ReadLogs(info logger.Info, config logger.ReadConfig) (io.ReadCl
 								return
 							}
 						default:
-							watcher.Close()
 							w.Close()
+							return
 						}
 					}
 				}
