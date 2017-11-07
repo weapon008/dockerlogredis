@@ -1,7 +1,6 @@
 package ringbuffer
 
 import (
-	"log"
 	"sync"
 	"time"
 
@@ -33,7 +32,7 @@ func (rb *RingBuffer) Tail(n int, Since time.Time) []*logger.Message {
 	if rb.size < n || n <= 0 {
 		n = rb.size
 	}
-	log.Println(`???????????`, n, rb.size)
+
 	tmp := make([]*logger.Message, n)
 	for i := 1; i <= n; i++ {
 		id := (rb.head - i + rb.size) % rb.size
