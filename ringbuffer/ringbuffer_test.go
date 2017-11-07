@@ -11,7 +11,7 @@ import (
 
 var (
 	COUNT = 1
-	MSG   = &logger.Message{
+	MSG   = logger.Message{
 		Line: []byte(`1234567890abcdefghijklmopqrstuvwxyzABCDEFGHIJKLMOPQRSTUVWXYZ!@#$%^&*()`),
 	}
 )
@@ -42,7 +42,7 @@ func TestSendTail50(t *testing.T) {
 	defer rb.Close()
 	testbuffer := ""
 	for i := 0; i < COUNT; i++ {
-		msg := &logger.Message{
+		msg := logger.Message{
 			Line: []byte(fmt.Sprintf("%v", i)),
 		}
 
@@ -78,7 +78,7 @@ func TestSendTailSince(t *testing.T) {
 	defer rb.Close()
 	testbuffer := ""
 	for i := 0; i < COUNT; i++ {
-		msg := &logger.Message{
+		msg := logger.Message{
 			Line:      []byte(fmt.Sprintf("%v", i)),
 			Timestamp: time.Unix(int64(i), 0),
 		}

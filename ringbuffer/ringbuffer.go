@@ -9,8 +9,8 @@ import (
 )
 
 type RingBuffer struct {
-	bfs  []*logger.Message
-	rbfs []*logger.Message
+	bfs  []logger.Message
+	rbfs []logger.Message
 	tk   *time.Ticker
 	rl   sync.RWMutex
 
@@ -19,7 +19,7 @@ type RingBuffer struct {
 	size int
 }
 
-func (rb *RingBuffer) Write(p *logger.Message) (n int, err error) {
+func (rb *RingBuffer) Write(p logger.Message) (n int, err error) {
 	rb.bfs[rb.iput] = p
 	rb.iput += 1
 	rb.iput %= rb.size
@@ -38,14 +38,14 @@ func (rb *RingBuffer) Tail(n int, Since time.Time) []*logger.Message {
 	for i := 1; i <= n; i++ {
 		id := (rb.head - i + rb.size) % rb.size
 		insert := n - i
-		if rb.rbfs[id] == nil || rb.rbfs[id].Timestamp.Before(Since) || len(rb.rbfs[id].Line) == 0 {
+		if rb.rbfs[id].Timestamp.Before(Since) || len(rb.rbfs[id].Line) == 0 {
 			tmp = tmp[insert+1:]
 
 			break
 		}
 
-		tmp[insert] = rb.rbfs[id]
-		tmp[insert].Line = []byte(string(tmp[insert].Line) + `\n`)
+		tmp[insert] = &rb.rbfs[id]
+		tmp[insert].Line = []byte(string(tmp[insert].Line))
 		if id == rb.head {
 			break
 		}
@@ -69,8 +69,8 @@ func (rb *RingBuffer) Close() {
 }
 func New(size int) (rb *RingBuffer) {
 	rb = &RingBuffer{
-		bfs:  make([]*logger.Message, size),
-		rbfs: make([]*logger.Message, size),
+		bfs:  make([]logger.Message, size),
+		rbfs: make([]logger.Message, size),
 		size: size,
 		rl:   sync.RWMutex{},
 		tk:   time.NewTicker(time.Second),
