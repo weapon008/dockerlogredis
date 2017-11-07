@@ -33,7 +33,7 @@ func (rl *Redislog) ReadLogs(cfg logger.ReadConfig) *logger.LogWatcher {
 				}
 			}
 			log.Println(`!!!!!!!!!!888`)
-			logWatcher.Close()
+
 		}()
 	}
 	return logWatcher
