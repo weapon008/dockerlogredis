@@ -1,6 +1,7 @@
 package redislog
 
 import (
+	"io"
 	"log"
 
 	"github.com/docker/docker/daemon/logger"
@@ -20,7 +21,7 @@ func (rl *Redislog) ReadLogs(cfg logger.ReadConfig) *logger.LogWatcher {
 				log.Println(`!!!!!!!!!!333`, i)
 
 				if i >= len(msgs) {
-
+					logWatcher.Err <- io.EOF
 					break
 				}
 				msg := msgs[i]

@@ -159,12 +159,33 @@ func (d *driver) ReadLogs(info logger.Info, config logger.ReadConfig) (io.ReadCl
 				}
 			case err := <-watcher.Err:
 				log.Println(`!!!!!!!!!!!555`, err.Error())
+				if err == io.EOF {
+					for {
+						select {
+						case msg, ok := <-watcher.Msg:
+							if !ok {
+								log.Println(`!!!!!!!!!!!666`)
+								w.Close()
+								return
+							}
+							buf.Line = msg.Line
+							buf.Partial = msg.Partial
+							buf.TimeNano = msg.Timestamp.UnixNano()
+							buf.Source = msg.Source
+							log.Println(`!!!!!!!!!!!`, string(msg.Line), string(buf.Line))
+							if err := enc.WriteMsg(&buf); err != nil {
+								w.CloseWithError(err)
+								return
+							}
+						default:
+							watcher.Close()
+							w.Close()
+						}
+					}
+				}
 				w.CloseWithError(err)
 				return
-			default:
-				watcher.Close()
-				w.Close()
-				return
+
 			}
 			log.Println(`!!!!!!!!!!!444`)
 			buf.Reset()
