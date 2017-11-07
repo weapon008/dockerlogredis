@@ -130,7 +130,7 @@ func (d *driver) ReadLogs(info logger.Info, config logger.ReadConfig) (io.ReadCl
 	if !ok {
 		return nil, fmt.Errorf("logger does not support reading")
 	}
-
+	log.Println(`!!!!!!!!!!!777`, config)
 	go func() {
 		watcher := lr.ReadLogs(config)
 
