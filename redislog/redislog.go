@@ -23,7 +23,7 @@ func (rl *Redislog) Name() (name string) {
 }
 func (rl *Redislog) Log(msg *logger.Message) (err error) {
 	rl.bus.Pub(msg)
-	_, err = rl.rb.Write(msg)
+	_, err = rl.rb.Write(*msg)
 	// TODO send to redis
 	log.Println(`=>debug`, msg.Timestamp, msg.Source, msg.Line)
 	return err
