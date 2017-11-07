@@ -45,6 +45,7 @@ func (rb *RingBuffer) Tail(n int, Since time.Time) []*logger.Message {
 		}
 
 		tmp[insert] = rb.rbfs[id]
+		tmp[insert].Line = []byte(string(tmp[insert].Line) + `\n`)
 		if id == rb.head {
 			break
 		}
