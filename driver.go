@@ -133,7 +133,6 @@ func (d *driver) ReadLogs(info logger.Info, config logger.ReadConfig) (io.ReadCl
 	log.Println(`!!!!!!!!!!!777`, config)
 	go func() {
 		watcher := lr.ReadLogs(config)
-
 		enc := protoio.NewUint32DelimitedWriter(w, binary.BigEndian)
 		defer enc.Close()
 		defer watcher.Close()
@@ -178,18 +177,14 @@ func (d *driver) ReadLogs(info logger.Info, config logger.ReadConfig) (io.ReadCl
 								return
 							}
 						default:
-							//							w.Close()
 							return
 						}
-
 					}
 				}
 				w.CloseWithError(err)
 				return
-
 			}
 			log.Println(`!!!!!!!!!!!444`)
-
 		}
 	}()
 

@@ -1,6 +1,7 @@
 package redislog
 
 import (
+	"bytes"
 	"io"
 	"log"
 
@@ -24,6 +25,7 @@ func (rl *Redislog) ReadLogs(cfg logger.ReadConfig) *logger.LogWatcher {
 					break
 				}
 				msg := msgs[i]
+				msg.Line = bytes.TrimSpace(msg.Line)
 				log.Println(`!!!!!!!!!!333`, i, string(msg.Line))
 				i += 1
 				select {
