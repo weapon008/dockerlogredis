@@ -25,7 +25,8 @@ func (rl *Redislog) ReadLogs(cfg logger.ReadConfig) *logger.LogWatcher {
 					break
 				}
 				msg := msgs[i]
-				msg.Line = bytes.TrimSpace(msg.Line)
+				msg.Line = []byte(string(bytes.TrimSpace(msg.Line)) + `\n`)
+
 				log.Println(`!!!!!!!!!!333`, i, string(msg.Line))
 				i += 1
 				select {
