@@ -161,6 +161,8 @@ func (d *driver) ReadLogs(info logger.Info, config logger.ReadConfig) (io.ReadCl
 				log.Println(`!!!!!!!!!!!555`, err.Error())
 				w.CloseWithError(err)
 				return
+			default:
+				watcher.Close()
 			}
 			log.Println(`!!!!!!!!!!!444`)
 			buf.Reset()
