@@ -138,7 +138,6 @@ func (d *driver) ReadLogs(info logger.Info, config logger.ReadConfig) (io.ReadCl
 		defer enc.Close()
 		defer watcher.Close()
 
-		var buf logdriver.LogEntry
 		for {
 			select {
 			case msg, ok := <-watcher.Msg:
@@ -147,7 +146,7 @@ func (d *driver) ReadLogs(info logger.Info, config logger.ReadConfig) (io.ReadCl
 					w.Close()
 					return
 				}
-
+				buf := logdriver.LogEntry{}
 				buf.Line = msg.Line
 				buf.Partial = msg.Partial
 				buf.TimeNano = msg.Timestamp.UnixNano()
@@ -168,6 +167,7 @@ func (d *driver) ReadLogs(info logger.Info, config logger.ReadConfig) (io.ReadCl
 								w.Close()
 								return
 							}
+							buf = logdriver.LogEntry{}
 							buf.Line = msg.Line
 							buf.Partial = msg.Partial
 							buf.TimeNano = msg.Timestamp.UnixNano()
@@ -181,7 +181,7 @@ func (d *driver) ReadLogs(info logger.Info, config logger.ReadConfig) (io.ReadCl
 							w.Close()
 							return
 						}
-						buf.Reset()
+
 					}
 				}
 				w.CloseWithError(err)
@@ -189,7 +189,7 @@ func (d *driver) ReadLogs(info logger.Info, config logger.ReadConfig) (io.ReadCl
 
 			}
 			log.Println(`!!!!!!!!!!!444`)
-			buf.Reset()
+
 		}
 	}()
 
