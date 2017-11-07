@@ -18,6 +18,7 @@ func (rl *Redislog) ReadLogs(cfg logger.ReadConfig) *logger.LogWatcher {
 				case logWatcher.Msg <- msg:
 				}
 			}
+			logWatcher.Close()
 		}()
 	}
 	return logWatcher
