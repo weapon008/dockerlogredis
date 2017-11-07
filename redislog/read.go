@@ -15,10 +15,15 @@ func (rl *Redislog) ReadLogs(cfg logger.ReadConfig) *logger.LogWatcher {
 		go func() {
 			log.Println(`!!!!!!!!!!222`)
 			msgs := rl.rb.Tail(cfg.Tail, cfg.Since)
-			i = 0
+			i := 0
 			for {
 				log.Println(`!!!!!!!!!!333`, i)
+
+				if i >= len(msgs) {
+					break
+				}
 				msg := msgs[i]
+				i += 1
 				select {
 				case <-logWatcher.WatchClose():
 					return
