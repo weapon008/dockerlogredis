@@ -18,13 +18,13 @@ func (rl *Redislog) ReadLogs(cfg logger.ReadConfig) *logger.LogWatcher {
 			msgs := rl.rb.Tail(cfg.Tail, cfg.Since)
 			i := 0
 			for {
-				log.Println(`!!!!!!!!!!333`, i)
 
 				if i >= len(msgs) {
 					logWatcher.Err <- io.EOF
 					break
 				}
 				msg := msgs[i]
+				log.Println(`!!!!!!!!!!333`, i, string(msg.Line))
 				i += 1
 				select {
 				case <-logWatcher.WatchClose():

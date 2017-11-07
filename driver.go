@@ -181,6 +181,7 @@ func (d *driver) ReadLogs(info logger.Info, config logger.ReadConfig) (io.ReadCl
 							w.Close()
 							return
 						}
+						buf.Reset()
 					}
 				}
 				w.CloseWithError(err)
