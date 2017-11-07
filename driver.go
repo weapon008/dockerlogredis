@@ -152,7 +152,7 @@ func (d *driver) ReadLogs(info logger.Info, config logger.ReadConfig) (io.ReadCl
 				buf.Partial = msg.Partial
 				buf.TimeNano = msg.Timestamp.UnixNano()
 				buf.Source = msg.Source
-				log.Println(`!!!!!!!!!!!`, string(buf.Line))
+				log.Println(`!!!!!!!!!!!`)
 				if err := enc.WriteMsg(&buf); err != nil {
 					w.CloseWithError(err)
 					return
