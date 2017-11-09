@@ -1,7 +1,6 @@
 package redislog
 
 import (
-	"bytes"
 	"io"
 
 	"github.com/docker/docker/daemon/logger"
@@ -24,7 +23,6 @@ func (rl *Redislog) ReadLogs(cfg logger.ReadConfig) *logger.LogWatcher {
 					break
 				}
 				msg := msgs[i]
-				msg.Line = append(bytes.TrimSpace(msg.Line), []byte("\n")...)
 
 				i += 1
 				select {

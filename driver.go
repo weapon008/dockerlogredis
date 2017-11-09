@@ -1,11 +1,11 @@
 package main
 
 import (
+	"bytes"
 	"context"
 	"encoding/binary"
 	"fmt"
 	"io"
-
 	"os"
 	"path/filepath"
 	"sync"
@@ -162,7 +162,7 @@ func (d *driver) ReadLogs(info logger.Info, config logger.ReadConfig) (io.ReadCl
 								return
 							}
 							buf := logdriver.LogEntry{}
-							buf.Line = msg.Line
+							buf.Line = append(bytes.TrimSpace(msg.Line), []byte("\n")...)
 							buf.Partial = msg.Partial
 							buf.TimeNano = msg.Timestamp.UnixNano()
 							buf.Source = msg.Source
