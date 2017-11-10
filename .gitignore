@@ -16,3 +16,4 @@ logs
 .idea
 rcc-web
 rootfs
+dockerlogredis*
